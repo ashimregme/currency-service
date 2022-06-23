@@ -1,37 +1,30 @@
 package pl.assecods.dbservice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import pl.assecods.dbservice.domain.ExchangeRate;
 import pl.assecods.dbservice.dto.ExchangeRateResponse;
-import pl.assecods.dbservice.utils.JsonUtils;
+import pl.assecods.dbservice.repository.ExchangeRateRepository;
 
 import java.util.Optional;
 
 @Service
 public class DBService {
-    private final CacheService cacheService;
+    private final ExchangeRateRepository exchangeRateRepository;
 
-    public DBService(CacheService cacheService) {
-        this.cacheService = cacheService;
+    public DBService(ExchangeRateRepository exchangeRateRepository) {
+        this.exchangeRateRepository = exchangeRateRepository;
     }
 
     public Optional<ExchangeRateResponse> getExchangeRate(String type, String code, String date) {
-        String cacheKey = getCacheKey(type, code, date);
-
-        String valueFromCache = cacheService.get(cacheKey);
-        if(StringUtils.hasLength(valueFromCache)) {
-            return Optional.of(JsonUtils.fromJson(valueFromCache, ExchangeRateResponse.class));
-        }
-
-        return Optional.empty();
+        Optional<ExchangeRate> optionalExchangeRate = exchangeRateRepository.findById(getId(type, code, date));
+        return optionalExchangeRate.map(exchangeRate -> new ExchangeRateResponse(exchangeRate.getRate()));
     }
 
-    public void setExchangeRate(String type, String code, String date, double exr) {
-        String cacheKey = getCacheKey(type, code, date);
-        cacheService.set(cacheKey, JsonUtils.toJson(new ExchangeRateResponse(exr)));
+    public void setExchangeRate(String type, String code, String date, double rate) {
+        exchangeRateRepository.save(new ExchangeRate(getId(type, code, date), rate));
     }
 
-    private static String getCacheKey(String type, String code, String date) {
-        return String.format("nlb-%s-%s-%s", type, code, date);
+    private static String getId(String type, String code, String date) {
+        return String.format("%s_%s_%s", type, code, date);
     }
 }
