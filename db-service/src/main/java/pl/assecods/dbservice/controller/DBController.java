@@ -20,7 +20,7 @@ public class DBController {
     public ResponseEntity<ExchangeRateResponse> getSellExchangeRate(@PathVariable String type,
                                                                     @PathVariable String code,
                                                                     @PathVariable String date) {
-        return ResponseEntity.of(dbService.getSellExchangeRate(type, code, date));
+        return ResponseEntity.of(dbService.getExchangeRate(type, code, date));
     }
 
     @PostMapping("/db/{type}/exr/{date}/{code}/{exr}")
@@ -28,6 +28,6 @@ public class DBController {
                                     @PathVariable String code,
                                     @PathVariable String date,
                                     @PathVariable double exr) {
-        dbService.setSellExchangeRate(type, code, date, exr);
+        dbService.setExchangeRate(type, code, date, exr);
     }
 }

@@ -15,7 +15,7 @@ public class DBService {
         this.cacheService = cacheService;
     }
 
-    public Optional<ExchangeRateResponse> getSellExchangeRate(String type, String code, String date) {
+    public Optional<ExchangeRateResponse> getExchangeRate(String type, String code, String date) {
         String cacheKey = getCacheKey(type, code, date);
 
         String valueFromCache = cacheService.get(cacheKey);
@@ -26,7 +26,7 @@ public class DBService {
         return Optional.empty();
     }
 
-    public void setSellExchangeRate(String type, String code, String date, double exr) {
+    public void setExchangeRate(String type, String code, String date, double exr) {
         String cacheKey = getCacheKey(type, code, date);
         cacheService.set(cacheKey, JsonUtils.toJson(new ExchangeRateResponse(exr)));
     }
