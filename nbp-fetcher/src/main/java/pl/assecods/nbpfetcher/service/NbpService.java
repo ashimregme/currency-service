@@ -1,24 +1,24 @@
-package pl.assecods.nlbfetcher.service;
+package pl.assecods.nbpfetcher.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.assecods.nlbfetcher.clients.DBClient;
-import pl.assecods.nlbfetcher.clients.NLBClient;
-import pl.assecods.nlbfetcher.clients.NLBMidExchangeRateResponse;
-import pl.assecods.nlbfetcher.clients.NLBSellExchangeRateResponse;
-import pl.assecods.nlbfetcher.dto.ExchangeRateResponse;
+import pl.assecods.nbpfetcher.clients.DBClient;
+import pl.assecods.nbpfetcher.clients.NBPClient;
+import pl.assecods.nbpfetcher.clients.NbpMidExchangeRateResponse;
+import pl.assecods.nbpfetcher.clients.NbpSellExchangeRateResponse;
+import pl.assecods.nbpfetcher.dto.ExchangeRateResponse;
 
 import java.util.Optional;
 
 @Service
-public class NLBService {
+public class NbpService {
     private final DBClient dbClient;
-    private final NLBClient nlbClient;
+    private final NBPClient NBPClient;
 
-    public NLBService(DBClient dbClient, NLBClient nlbClient) {
+    public NbpService(DBClient dbClient, NBPClient NBPClient) {
         this.dbClient = dbClient;
-        this.nlbClient = nlbClient;
+        this.NBPClient = NBPClient;
     }
 
     public Optional<ExchangeRateResponse> getSellExchangeRate(String code, String date) {
@@ -27,7 +27,7 @@ public class NLBService {
             return Optional.ofNullable(exchangeRateResponseFromDb.getBody());
         }
 
-        ResponseEntity<NLBSellExchangeRateResponse> response = nlbClient.getSellExchangeRate(code, date);
+        ResponseEntity<NbpSellExchangeRateResponse> response = NBPClient.getSellExchangeRate(code, date);
         if(response.getStatusCode() == HttpStatus.OK) {
             double rate = response.getBody().getRates().get(0).getAsk();
             dbClient.setExchangeRate("sell", code, date, rate);
@@ -42,7 +42,7 @@ public class NLBService {
             return Optional.ofNullable(exchangeRateResponseFromDb.getBody());
         }
 
-        ResponseEntity<NLBMidExchangeRateResponse> response = nlbClient.getMidExchangeRate(code, date);
+        ResponseEntity<NbpMidExchangeRateResponse> response = NBPClient.getMidExchangeRate(code, date);
         if(response.getStatusCode() == HttpStatus.OK) {
             double rate = response.getBody().getRates().get(0).getMid();
             dbClient.setExchangeRate("mid", code, date, rate);

@@ -1,11 +1,11 @@
-package pl.assecods.nlbfetcher.clients;
+package pl.assecods.nbpfetcher.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.assecods.nlbfetcher.dto.ExchangeRateResponse;
+import pl.assecods.nbpfetcher.dto.ExchangeRateResponse;
 
 @FeignClient(value = "db", url = "http://localhost:8082/db/", decode404 = true)
 public interface DBClient {

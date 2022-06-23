@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.assecods</groupId>
-    <artifactId>nlb-fetcher</artifactId>
+    <artifactId>nbp-fetcher</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>nlb-fetcher</name>
-    <description>nlb-fetcher</description>
+    <name>nbp-fetcher</name>
+    <description>nbp-fetcher</description>
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>

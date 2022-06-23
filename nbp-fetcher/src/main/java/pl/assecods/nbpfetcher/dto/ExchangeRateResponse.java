@@ -1,4 +1,4 @@
-package pl.assecods.nlbfetcher.dto;
+package pl.assecods.nbpfetcher.dto;
 
 public class ExchangeRateResponse {
     private double rate;
