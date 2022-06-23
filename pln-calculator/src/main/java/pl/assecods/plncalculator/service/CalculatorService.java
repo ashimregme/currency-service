@@ -8,8 +8,11 @@ import pl.assecods.plncalculator.dto.ExchangeRateResponse;
 import pl.assecods.plncalculator.dto.PLNCostRequest;
 import pl.assecods.plncalculator.dto.PLNCostResponse;
 
+import java.text.DecimalFormat;
+
 @Service
 public class CalculatorService {
+    private static final DecimalFormat twoDecimalPlacesFormatter = new DecimalFormat("#.00");
     private final NLBFetcherClient nlbFetcherClient;
 
     public CalculatorService(NLBFetcherClient nlbFetcherClient) {
@@ -28,6 +31,6 @@ public class CalculatorService {
                     }
                     return 0.0;
                 }).reduce(Double::sum).orElse(0.0);
-        return new PLNCostResponse(sum);
+        return new PLNCostResponse(Double.parseDouble(twoDecimalPlacesFormatter.format(sum)));
     }
 }
